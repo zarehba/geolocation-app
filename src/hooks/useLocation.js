@@ -37,7 +37,6 @@ export default function useLocation(ipOrUrl) {
           { search: ipOrUrl, error: error.message },
           ...locations,
         ]);
-        // console.error(error);
       });
   }, [setLocations]);
 
@@ -80,7 +79,6 @@ export default function useLocation(ipOrUrl) {
           { search: ipOrUrl, error: error.message },
           ...locations,
         ]);
-        // console.error(error);
       });
   }, [ipOrUrl, locations, setLocations]);
 
