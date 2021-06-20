@@ -6,15 +6,18 @@ import SearchHistory from 'components/SearchHistory';
 import Map from 'components/Map';
 import LocationInfo from 'components/LocationInfo';
 import Search from 'components/Search';
+import useLocation from 'hooks/useLocation';
 
 const SearchLocationPage = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [searches, setSearches] = useState([]);
+  const locations = useLocation(searches[0]);
   const [lookedUpSearch, setLookedUpSearch] = useState(0);
 
-  console.log(searches, lookedUpSearch, searches[lookedUpSearch]);
+  console.log(locations);
+  // console.log(searches, lookedUpSearch, searches[lookedUpSearch]);
 
   const addSearch = (search) => {
     setSearches([search, ...searches]);
