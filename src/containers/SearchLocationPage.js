@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Grid from '@material-ui/core/Grid';
@@ -10,7 +11,17 @@ import Toast from 'components/Toast';
 import useLocation from 'hooks/useLocation';
 import useStateWithSessionStorage from 'hooks/useStateWithSessionStorage';
 
+const useStyles = makeStyles((theme) => ({
+  locationInfoContainer: {
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '24px',
+      marginBottom: '32px',
+    },
+  },
+}));
+
 const SearchLocationPage = () => {
+  const classes = useStyles();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -58,7 +69,7 @@ const SearchLocationPage = () => {
               error={locations[lookedUpSearch]?.error}
             />
           </Grid>
-          <Grid item xs={12} md={5}>
+          <Grid item xs={12} md={5} className={classes.locationInfoContainer}>
             <LocationInfo locInfo={locations[lookedUpSearch]} />
           </Grid>
           <Grid item xs={12}>
