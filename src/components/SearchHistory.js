@@ -19,18 +19,19 @@ const SearchHistory = ({ searches, handleHistoryLookup, lookedUpSearch }) => {
   const classes = useStyles();
 
   return (
-    <Paper p={2} className={classes.container}>
+    <Paper elevation={2} p={2} className={classes.container}>
       <Title>Search history</Title>
       <List component='nav' aria-label='Looked up IPs/URLs'>
-        <ListItem button selected={true}>
-          <ListItemText primary={'text1'} />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary={'text2'} />
-        </ListItem>
-        <ListItem button>
-          <ListItemText primary={'text3'} />
-        </ListItem>
+        {searches.map((searchStr, i) => (
+          <ListItem
+            button
+            key={`search_${searchStr}_${searchStr.length - i}`}
+            selected={lookedUpSearch === i}
+            onClick={handleHistoryLookup.bind(null, i)}
+          >
+            <ListItemText primary={searchStr} />
+          </ListItem>
+        ))}
       </List>
     </Paper>
   );

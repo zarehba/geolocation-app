@@ -12,17 +12,27 @@ const SearchLocationPage = () => {
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [searches, setSearches] = useState([]);
+  const [lookedUpSearch, setLookedUpSearch] = useState(0);
+
+  console.log(searches, lookedUpSearch, searches[lookedUpSearch]);
 
   const addSearch = (search) => {
     setSearches([search, ...searches]);
   };
-  console.log(searches);
+
+  const handleHistoryLookup = (index) => {
+    setLookedUpSearch(index);
+  };
 
   return (
     <>
       <Grid container spacing={3} mb={3} className='xx'>
         <Grid container item justify='center' spacing={0} xs={12} md={3}>
-          <SearchHistory />
+          <SearchHistory
+            lookedUpSearch={lookedUpSearch}
+            searches={searches}
+            handleHistoryLookup={handleHistoryLookup}
+          />
         </Grid>
 
         <Grid container item spacing={isSmall ? 0 : 3} xs={12} md={9}>
@@ -34,7 +44,6 @@ const SearchLocationPage = () => {
           </Grid>
           <Grid item xs={12}>
             <Search handleSearch={addSearch} />
-            {searches[0]}
           </Grid>
         </Grid>
       </Grid>
