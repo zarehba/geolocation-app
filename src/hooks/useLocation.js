@@ -1,5 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import axios from 'axios';
+import useStateWithLocStorage from 'hooks/useStateWithSessionStorage';
 
 const USER_LOCATION_ENDPOINT = `http://api.ipstack.com/check?access_key=${process.env.REACT_APP_GEOLOCATION_API_KEY}`;
 // this endpoint works too slowly for getting user's IP at start but allows looking up URLs
@@ -9,7 +10,7 @@ const cleanseUrlForEndpoint = (urlStr) =>
   urlStr.indexOf('//') > 0 ? urlStr.substr(urlStr.indexOf('//') + 2) : urlStr;
 
 export default function useLocation(ipOrUrl) {
-  const [locations, setLocations] = useState([]);
+  const [locations, setLocations] = useStateWithLocStorage('locations', []);
   const lastQuery = useRef(null);
 
   // initially get user's IP and location
@@ -17,12 +18,11 @@ export default function useLocation(ipOrUrl) {
     if (ipOrUrl !== "User's location" || ipOrUrl === locations[0]?.search)
       return;
 
-    lastQuery.current = ipOrUrl; // to limit requests to endpoint for the same query
-
     axios
       .get(USER_LOCATION_ENDPOINT)
       .then(function (response) {
         const resLocation = {
+          search: "User's location",
           query: response.data.ip,
           country: response.data.country_name,
           regionName: response.data.region_name,
@@ -48,8 +48,22 @@ export default function useLocation(ipOrUrl) {
       return;
 
     axios
-      .get(GET_LOCATION_ENDPOINT + cleanseUrlForEndpoint(ipOrUrl))
+      .get(
+        GET_LOCATION_ENDPOINT +
+          encodeURIComponent(cleanseUrlForEndpoint(ipOrUrl))
+      )
       .then(function (response) {
+        if (response.data.status === 'fail') {
+          return setLocations((locations) => [
+            {
+              error: 'Provided IP/URL is invalid or does not exist',
+              search: ipOrUrl,
+              ...response.data,
+            },
+            ...locations,
+          ]);
+        }
+
         setLocations((locations) => [
           { search: ipOrUrl, ...response.data },
           ...locations,

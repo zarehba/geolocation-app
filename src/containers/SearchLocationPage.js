@@ -7,12 +7,15 @@ import Map from 'components/Map';
 import LocationInfo from 'components/LocationInfo';
 import Search from 'components/Search';
 import useLocation from 'hooks/useLocation';
+import useStateWithSessionStorage from 'hooks/useStateWithSessionStorage';
 
 const SearchLocationPage = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [searches, setSearches] = useState(["User's location"]);
+  const [searches, setSearches] = useStateWithSessionStorage('searches', [
+    "User's location",
+  ]);
   const locations = useLocation(searches[0]);
   const [lookedUpSearch, setLookedUpSearch] = useState(0);
 
