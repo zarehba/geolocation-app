@@ -33,7 +33,11 @@ export default function useLocation(ipOrUrl) {
         setLocations((locations) => [resLocation, ...locations]);
       })
       .catch(function (error) {
-        console.error(error);
+        setLocations((locations) => [
+          { search: ipOrUrl, error: error.message },
+          ...locations,
+        ]);
+        // console.error(error);
       });
   }, [setLocations]);
 
@@ -46,6 +50,8 @@ export default function useLocation(ipOrUrl) {
       ipOrUrl === locations[0].search
     )
       return;
+
+    lastQuery.current = ipOrUrl; // to limit requests to endpoint for the same query
 
     axios
       .get(
