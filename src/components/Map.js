@@ -29,6 +29,18 @@ const Map = ({ latitude, longitude, error }) => {
           allowFullScreen
           loading='lazy'
         />
+      ) : error ? (
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '32px',
+            color: '#f44336',
+            ...mapContentsStyle,
+          }}
+        >
+          {error}
+        </div>
       ) : (
         <Skeleton variant='rect' style={mapContentsStyle} />
       )}

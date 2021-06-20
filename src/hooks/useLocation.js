@@ -76,7 +76,11 @@ export default function useLocation(ipOrUrl) {
         ]);
       })
       .catch(function (error) {
-        console.error(error);
+        setLocations((locations) => [
+          { search: ipOrUrl, error: error.message },
+          ...locations,
+        ]);
+        // console.error(error);
       });
   }, [ipOrUrl, locations, setLocations]);
 

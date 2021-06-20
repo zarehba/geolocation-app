@@ -6,6 +6,7 @@ import SearchHistory from 'components/SearchHistory';
 import Map from 'components/Map';
 import LocationInfo from 'components/LocationInfo';
 import Search from 'components/Search';
+import Toast from 'components/Toast';
 import useLocation from 'hooks/useLocation';
 import useStateWithSessionStorage from 'hooks/useStateWithSessionStorage';
 
@@ -18,9 +19,6 @@ const SearchLocationPage = () => {
   ]);
   const locations = useLocation(searches[0]);
   const [lookedUpSearch, setLookedUpSearch] = useState(0);
-
-  // console.log(locations);
-  // console.log(searches, lookedUpSearch, searches[lookedUpSearch]);
 
   const addSearch = (search) => {
     if (search === searches[0]) return;
@@ -35,7 +33,15 @@ const SearchLocationPage = () => {
 
   return (
     <>
-      <Grid container spacing={3} mb={3} className='xx'>
+      {locations[lookedUpSearch]?.error && (
+        <Toast
+          show={!!locations[lookedUpSearch]?.error}
+          type='error'
+          msg={locations[lookedUpSearch]?.error}
+          key={`error_${locations[lookedUpSearch]?.search}`}
+        />
+      )}
+      <Grid container spacing={3} mb={3}>
         <Grid container item justify='center' spacing={0} xs={12} md={3}>
           <SearchHistory
             lookedUpSearch={lookedUpSearch}
@@ -49,6 +55,7 @@ const SearchLocationPage = () => {
             <Map
               latitude={locations[lookedUpSearch]?.lat}
               longitude={locations[lookedUpSearch]?.lon}
+              error={locations[lookedUpSearch]?.error}
             />
           </Grid>
           <Grid item xs={12} md={5}>
