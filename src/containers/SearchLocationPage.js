@@ -19,11 +19,14 @@ const SearchLocationPage = () => {
   const locations = useLocation(searches[0]);
   const [lookedUpSearch, setLookedUpSearch] = useState(0);
 
-  console.log(locations);
+  // console.log(locations);
   // console.log(searches, lookedUpSearch, searches[lookedUpSearch]);
 
   const addSearch = (search) => {
+    if (search === searches[0]) return;
+
     setSearches([search, ...searches]);
+    setLookedUpSearch(0);
   };
 
   const handleHistoryLookup = (index) => {
