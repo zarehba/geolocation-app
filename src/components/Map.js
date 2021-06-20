@@ -14,7 +14,7 @@ const mapContentsStyle = {
   minHeight: '50vh',
 };
 
-const Map = () => {
+const Map = ({ latitude, longitude }) => {
   const classes = useStyles();
 
   return (
@@ -22,7 +22,7 @@ const Map = () => {
       <Title>Location on map</Title>
       <iframe
         title='Location'
-        src={`https://www.google.com/maps?q=1,1&z=16&output=embed`}
+        src={`https://www.google.com/maps?q=${latitude},${longitude}&z=16&output=embed`}
         style={mapContentsStyle}
         allowFullScreen
         loading='lazy'

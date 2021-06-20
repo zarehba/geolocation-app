@@ -40,7 +40,10 @@ const SearchLocationPage = () => {
 
         <Grid container item spacing={isSmall ? 0 : 3} xs={12} md={9}>
           <Grid item xs={12} md={7}>
-            <Map />
+            <Map
+              latitude={locations[lookedUpSearch]?.lat}
+              longitude={locations[lookedUpSearch]?.lon}
+            />
           </Grid>
           <Grid item xs={12} md={5}>
             <LocationInfo />
