@@ -20,28 +20,54 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const LocationInfo = () => {
+const uppercaseFirstLetter = (str) =>
+  !str ? str : str[0].toUpperCase() + str.substr(1);
+const keyToDisplayedKey = (key) => {
+  switch (key) {
+    case 'search':
+      return 'Search query';
+    case 'regionName':
+      return 'Region';
+    case 'query':
+      return 'IP';
+    default:
+      return uppercaseFirstLetter(key);
+  }
+};
+
+const LocationInfo = ({ locInfo }) => {
   const classes = useStyles();
 
   return (
     <Paper elevation={2} p={2} className={classes.container}>
       <Title>Location details</Title>
-      <Table className={classes.table} aria-label='simple table'>
-        <TableBody>
-          <TableRow>
-            <TableCell className={classes.title}>info key</TableCell>
-            <TableCell>info value</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className={classes.title}>info key 2</TableCell>
-            <TableCell>info value 2</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell className={classes.title}>info key 2</TableCell>
-            <TableCell>info value 3</TableCell>
-          </TableRow>
-        </TableBody>
-      </Table>
+      {locInfo && (
+        <Table className={classes.table} aria-label='simple table'>
+          <TableBody>
+            {Object.entries(locInfo)
+              .filter(
+                ([key]) =>
+                  [
+                    'search',
+                    'query',
+                    'country',
+                    'regionName',
+                    'city',
+                    'lat',
+                    'lon',
+                  ].indexOf(key) > -1
+              )
+              .map(([key, value]) => (
+                <TableRow key={key}>
+                  <TableCell className={classes.title}>
+                    {keyToDisplayedKey(key)}
+                  </TableCell>
+                  <TableCell>{value}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      )}
     </Paper>
   );
 };

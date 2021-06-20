@@ -46,7 +46,7 @@ const SearchLocationPage = () => {
             />
           </Grid>
           <Grid item xs={12} md={5}>
-            <LocationInfo />
+            <LocationInfo locInfo={locations[lookedUpSearch]} />
           </Grid>
           <Grid item xs={12}>
             <Search handleSearch={addSearch} />
