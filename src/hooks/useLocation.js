@@ -38,6 +38,7 @@ export default function useLocation(ipOrUrl) {
           ...locations,
         ]);
       });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setLocations]);
 
   // on searching IP/URL provided, get this IP/URL's location
