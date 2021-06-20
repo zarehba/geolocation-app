@@ -12,7 +12,7 @@ const SearchLocationPage = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const [searches, setSearches] = useState([]);
+  const [searches, setSearches] = useState(["User's location"]);
   const locations = useLocation(searches[0]);
   const [lookedUpSearch, setLookedUpSearch] = useState(0);
 
