@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Title from 'components/Title';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -14,19 +15,23 @@ const mapContentsStyle = {
   minHeight: '50vh',
 };
 
-const Map = ({ latitude, longitude }) => {
+const Map = ({ latitude, longitude, error }) => {
   const classes = useStyles();
 
   return (
     <Paper elevation={2} p={2} className={classes.container}>
       <Title>Location on map</Title>
-      <iframe
-        title='Location'
-        src={`https://www.google.com/maps?q=${latitude},${longitude}&z=16&output=embed`}
-        style={mapContentsStyle}
-        allowFullScreen
-        loading='lazy'
-      />
+      {latitude && longitude ? (
+        <iframe
+          title='Location'
+          src={`https://www.google.com/maps?q=${latitude},${longitude}&z=16&output=embed`}
+          style={mapContentsStyle}
+          allowFullScreen
+          loading='lazy'
+        />
+      ) : (
+        <Skeleton variant='rect' style={mapContentsStyle} />
+      )}
     </Paper>
   );
 };
