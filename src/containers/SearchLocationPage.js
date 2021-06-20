@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +10,13 @@ import Search from 'components/Search';
 const SearchLocationPage = () => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down('sm'));
+
+  const [searches, setSearches] = useState([]);
+
+  const addSearch = (search) => {
+    setSearches([search, ...searches]);
+  };
+  console.log(searches);
 
   return (
     <>
@@ -25,7 +33,8 @@ const SearchLocationPage = () => {
             <LocationInfo />
           </Grid>
           <Grid item xs={12}>
-            <Search />
+            <Search handleSearch={addSearch} />
+            {searches[0]}
           </Grid>
         </Grid>
       </Grid>
